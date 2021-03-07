@@ -1,0 +1,15 @@
+syntax = "proto3";
+package snowflake;
+
+message Empty {
+
+}
+
+message SnowflakeReply {
+  string id_str = 1;
+  uint64 id = 2;
+}
+
+service Snowflake {
+  rpc GetSnowflake (Empty) returns (SnowflakeReply);
+}
