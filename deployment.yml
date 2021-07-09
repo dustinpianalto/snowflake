@@ -1,0 +1,24 @@
+apiVersion: v1
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: snowflake-server
+  namespace: default
+  labels:
+    app: snowflake-server
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: "OnFailure"
+          containers:
+            - name: snowflake-server
+              image: <IMAGE>
+              env:
+                - name: WORKER_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: snowflake
+                      key: worker_id
