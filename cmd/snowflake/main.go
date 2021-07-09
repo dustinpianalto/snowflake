@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+	"os"
+	"strconv"
 	"sync"
 
 	"github.com/dustinpianalto/snowflake/internal/generator"
@@ -10,7 +13,12 @@ import (
 
 func main() {
 
-	generator.CreateGenerator(1)
+	workerID, err := strconv.ParseUint(os.Getenv("WORKER_ID"), 10, 64)
+	if err != nil {
+		log.Fatal("Not a valid worker id")
+	}
+
+	generator.CreateGenerator(workerID)
 
 	go generator.Generator.Run()
 
