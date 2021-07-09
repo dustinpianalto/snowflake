@@ -21,30 +21,37 @@ status:
 
 ---
 
-apiVersion: v1
-apiVersion: batch/v1beta1
-kind: CronJob
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: snowflake-server
-  namespace: default
+  namespace: dca
   labels:
     app: snowflake-server
 spec:
-  schedule: "0 0 * * *"
-  jobTemplate:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snowflake-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 30
+  template:
+    metadata:
+      labels:
+        app: snowflake-server
     spec:
-      template:
-        spec:
-          restartPolicy: "OnFailure"
-          containers:
-            - name: snowflake-server
-              image: <IMAGE>
-              ports:
-                - containerPort: 50051
-                - containerPort: 50052
-              env:
-                - name: WORKER_ID
-                  valueFrom:
-                    secretKeyRef:
-                      name: snowflake
-                      key: worker_id
+      containers:
+        - name: snowflake-server
+          image: <IMAGE>
+          ports:
+            - containerPort: 50051
+            - containerPort: 50052
+          env:
+            - name: WORKER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: snowflake
+                  key: worker_id
