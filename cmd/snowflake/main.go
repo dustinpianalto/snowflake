@@ -1,29 +1,22 @@
 package main
 
 import (
-	"fmt"
+	"sync"
 
 	"github.com/dustinpianalto/snowflake/internal/generator"
+	"github.com/dustinpianalto/snowflake/internal/grpc_server"
+	"github.com/dustinpianalto/snowflake/internal/rest_server"
 )
 
 func main() {
 
-	gen, err := generator.CreateGenerator(1)
-	if err != nil {
-		panic(err)
-	}
+	generator.CreateGenerator(1)
 
-	requestChan := make(chan chan uint64)
-	outputChan := make(chan uint64)
+	go generator.Generator.Run()
 
-	go func() {
-		for id := range outputChan {
-			fmt.Println(id)
-		}
-	}()
-	go gen.Run(requestChan)
-
-	for i := 0; i < 500000; i++ {
-		requestChan <- outputChan
-	}
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go grpc_server.RunGRPCServer()
+	go rest_server.RunRESTServer()
+	wg.Wait()
 }

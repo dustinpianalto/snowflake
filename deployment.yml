@@ -1,3 +1,26 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: snowflake-server
+  namespace: dca
+  labels:
+    environment: production
+spec:
+  type: "LoadBalancer"
+  ports:
+    - name: "snowflake-grpc"
+      port: 50051
+      targetPort: 50051
+    - name: "snowflake-rest"
+      port: 50052
+      targetPort: 50052
+  selector:
+    app: snowflake-server
+status:
+  loadBalancer: {}
+
+---
+
 apiVersion: v1
 apiVersion: batch/v1beta1
 kind: CronJob
@@ -16,6 +39,9 @@ spec:
           containers:
             - name: snowflake-server
               image: <IMAGE>
+              ports:
+                - containerPort: 50051
+                - containerPort: 50052
               env:
                 - name: WORKER_ID
                   valueFrom:
