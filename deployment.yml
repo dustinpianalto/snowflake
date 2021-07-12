@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: snowflake-server
-  namespace: dca
+  namespace: default
   labels:
     environment: production
 spec:
@@ -25,7 +25,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: snowflake-server
-  namespace: dca
+  namespace: default
   labels:
     app: snowflake-server
 spec:
