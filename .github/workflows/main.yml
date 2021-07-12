@@ -43,7 +43,7 @@ jobs:
         run: TAG=${{ steps.get_version.outputs.version-without-v }} && sed -i 's|<IMAGE>|registry.digitalocean.com/djpianalto/snowflake-server:'${TAG}'|' $GITHUB_WORKSPACE/deployment.yml
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 discord-bots
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 placeholder-chat-dev
 
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f $GITHUB_WORKSPACE/deployment.yml
