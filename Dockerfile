@@ -8,9 +8,6 @@ RUN go mod download
 RUN apk update
 
 RUN apk add protobuf
-ENV GOOS=linux
-ENV GOARCH=arm
-ENV GOARM=7
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
 RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 COPY . .
