@@ -38,7 +38,7 @@ jobs:
           IMAGE_TAG: ${{ steps.get_version.outputs.version-without-v }}
         run: |
           docker build -t ${{ secrets.DR_URL }}/snowflake-server:$IMAGE_TAG .
-          docker push &{{ secrets.DR_URL }}/snowflake-server:$IMAGE_TAG
+          docker push ${{ secrets.DR_URL }}/snowflake-server:$IMAGE_TAG
           sed -i 's|<IMAGE>|${{ secrets.DR_URL }}/snowflake-server:'${IMAGE_TAG}'|' $GITHUB_WORKSPACE/deployment.yml
 
       - name: Kubernetes set context
