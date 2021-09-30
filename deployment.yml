@@ -55,3 +55,5 @@ spec:
                 secretKeyRef:
                   name: snowflake
                   key: worker_id
+      imagePullSecrets:
+        - name: regcred
