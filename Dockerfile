@@ -5,6 +5,7 @@ COPY ./go.mod .
 COPY ./go.sum .
 
 RUN go mod download
+RUN sed -i 's/https/http/' /etc/apk/repositories
 RUN apk update
 
 RUN apk add protobuf
