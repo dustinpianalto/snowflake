@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: snowflake-server
-  namespace: default
+  namespace: snowflake
   labels:
     environment: production
 spec:
@@ -25,7 +25,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: snowflake-server
-  namespace: default
+  namespace: snowflake
   labels:
     app: snowflake-server
 spec:
@@ -56,4 +56,4 @@ spec:
                   name: snowflake
                   key: worker_id
       imagePullSecrets:
-        - name: regcred
+        - name: registry-2
