@@ -56,4 +56,4 @@ spec:
                   name: snowflake
                   key: worker_id
       imagePullSecrets:
-        - name: registry-2
+        - name: registry-1
